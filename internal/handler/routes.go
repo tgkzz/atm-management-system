@@ -20,5 +20,10 @@ func (h *Handler) Routes() *echo.Echo {
 	e.POST("/api/register", h.register)
 	e.POST("/api/login", h.login)
 
+	// admin
+	adminGroup := e.Group("/api/admin")
+
+	adminGroup.GET("", h.Admin)
+
 	return e
 }

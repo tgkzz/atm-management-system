@@ -4,6 +4,15 @@ import (
 	"atm/internal/models"
 )
 
+func (a AuthService) Login(user models.User) (string, error) {
+	token, err := createJwtToken(user)
+	if err != nil {
+		return "", err
+	}
+
+	return token, err
+}
+
 func (a AuthService) CreateNewUser(user models.User) (err error) {
 	if err = validateUserData(user); err != nil {
 		return err
@@ -25,16 +34,15 @@ func (a AuthService) DeleteUserByUsername(username string) error {
 	return a.repo.DeleteUserByUsername(username)
 }
 
-func (a AuthService) CheckUserCreds(creds models.User) error {
+func (a AuthService) CheckUserCreds(creds models.User) (models.User, error) {
 	user, err := a.repo.GetUserByUsername(creds.Username)
 	if err != nil {
-		return err
+		return models.User{}, err
 	}
 
 	if !checkPasswordHash(creds.Password, user.Password) {
-		return models.ErrIncorrectPassword
+		return models.User{}, models.ErrIncorrectPassword
 	}
 
-	return nil
-
+	return user, nil
 }

@@ -7,39 +7,6 @@ import (
 	"strings"
 )
 
-//
-//func (h *Handler) login(w http.ResponseWriter, r *http.Request) {
-//	if r.URL.Path != "/login" {
-//		ErrorHandler(w, http.StatusNotFound)
-//		return
-//	}
-//
-//	var user models.User
-//	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-//		h.errorLogger.Print(err)
-//		ErrorHandler(w, http.StatusBadRequest)
-//		return
-//	}
-//
-//	if err := h.service.Auth.CreateNewUser(user); err != nil {
-//		h.errorLogger.Print(err)
-//		ErrorHandler(w, http.StatusInternalServerError)
-//		return
-//	}
-//
-//	w.Header().Set("Content-Type", "application/json")
-//	successResp := map[string]int{
-//		"status": 200,
-//	}
-//
-//	if err := json.NewEncoder(w).Encode(successResp); err != nil {
-//		h.errorLogger.Print(err)
-//		ErrorHandler(w, http.StatusInternalServerError)
-//		return
-//	}
-//
-//}
-
 func (h *Handler) register(c echo.Context) error {
 	user := models.User{}
 
@@ -74,9 +41,8 @@ func (h *Handler) login(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	// suppress it in 1 method
-
-	if err := h.service.Auth.CheckUserCreds(creds); err != nil {
+	user, err := h.service.Auth.CheckUserCreds(creds)
+	if err != nil {
 		h.errorLogger.Print(err)
 		if err == models.ErrIncorrectPassword {
 			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -89,6 +55,17 @@ func (h *Handler) login(c echo.Context) error {
 
 	// creating session and generating jwt token
 
+	token, err := h.service.Auth.Login(user)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	response := map[string]string{
+		"username": user.Username,
+		"token":    token,
+	}
+
 	h.infoLogger.Print("Successfully logged in")
-	return c.JSON(http.StatusCreated, creds)
+
+	return c.JSON(http.StatusCreated, response)
 }
