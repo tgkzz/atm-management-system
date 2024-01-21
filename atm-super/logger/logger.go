@@ -10,7 +10,6 @@ func NewLogger() (infoLogger *log.Logger, errLogger *log.Logger, err error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	defer logfile.Close()
 
 	flags := log.Ldate | log.Ltime | log.Lshortfile
 
@@ -20,5 +19,5 @@ func NewLogger() (infoLogger *log.Logger, errLogger *log.Logger, err error) {
 	infoLogger = log.New(logfile, "INFO: ", flags)
 	errLogger = log.New(logfile, "ERROR: ", flags)
 
-	return
+	return infoLogger, errLogger, err
 }

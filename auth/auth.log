@@ -1,0 +1,5 @@
+INFO: 2024/01/21 15:17:23 server.go:19: server is listening on http://localhost:8181
+ERROR: 2024/01/21 15:17:26 authhandler.go:19: pq: повторяющееся значение ключа нарушает ограничение уникальности "users_email_key"
+INFO: 2024/01/21 15:42:19 authhandler.go:32: Successfully created new user
+ERROR: 2024/01/21 15:42:48 authhandler.go:19: pq: повторяющееся значение ключа нарушает ограничение уникальности "users_username_key"
+INFO: 2024/01/21 15:43:05 authhandler.go:32: Successfully created new user
