@@ -4,3 +4,12 @@ INFO: 2024/01/21 15:42:42 server.go:19: server is listening on http://localhost:
 INFO: 2024/01/21 20:16:39 server.go:19: server is listening on http://localhost:4000
 INFO: 2024/01/21 20:36:46 server.go:19: server is listening on http://localhost:4000
 INFO: 2024/01/21 20:38:06 authhandler.go:37: successfully created new user
+INFO: 2024/01/21 21:54:46 server.go:19: server is listening on http://localhost:4000
+INFO: 2024/01/21 21:54:56 authhandler.go:58: successfully logged in
+INFO: 2024/01/21 21:55:02 authhandler.go:58: successfully logged in
+INFO: 2024/01/21 21:58:07 server.go:19: server is listening on http://localhost:4000
+INFO: 2024/01/21 21:58:33 authhandler.go:67: successfully logged in
+INFO: 2024/01/21 21:58:40 authhandler.go:67: successfully logged in
+INFO: 2024/01/21 21:58:44 authhandler.go:67: successfully logged in
+INFO: 2024/01/21 21:59:00 authhandler.go:67: successfully logged in
+INFO: 2024/01/21 21:59:03 authhandler.go:67: successfully logged in

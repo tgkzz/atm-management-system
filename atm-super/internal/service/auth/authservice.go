@@ -10,6 +10,7 @@ type AuthService struct {
 
 type IAuthService interface {
 	CreateNewUser(user models.User) (map[string]string, error)
+	Login(user models.User) (map[string]string, error)
 }
 
 func NewAuthService(AuthURL string) *AuthService {

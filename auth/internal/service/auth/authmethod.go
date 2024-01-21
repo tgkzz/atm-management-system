@@ -2,6 +2,8 @@ package auth
 
 import (
 	"auth/internal/models"
+	"github.com/golang-jwt/jwt/v5"
+	"time"
 )
 
 func (a AuthService) CreateNewUser(user models.User) (err error) {
@@ -32,8 +34,28 @@ func (a AuthService) CheckUserCreds(creds models.User) (models.User, error) {
 	}
 
 	if !checkPasswordHash(creds.Password, user.Password) {
-		return models.User{}, models.ErrIncorrectPassword
+		return models.User{}, models.ErrIncorrectUsernameOrEmail
 	}
 
 	return user, nil
+}
+
+func (a AuthService) JwtAuthorization(user models.User) (string, error) {
+	claims := &models.JwtCustomClaims{
+		Username: user.Username,
+		Email:    user.Email,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(2 * time.Hour)),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	//TODO: implement normal key for signing
+	t, err := token.SignedString([]byte("super-puper-secret-key"))
+	if err != nil {
+		return "", err
+	}
+
+	return t, nil
 }

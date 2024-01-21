@@ -3,6 +3,7 @@ package handler
 import (
 	"atm/internal/models"
 	"atm/internal/models/auth"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -39,5 +40,30 @@ func (h *Handler) register(c echo.Context) error {
 }
 
 func (h *Handler) login(c echo.Context) error {
-	return nil
+	user := models.User{}
+
+	if err := c.Bind(&user); err != nil {
+		h.errLogger.Print(err)
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+	}
+
+	result, err := h.service.Auth.Login(user)
+	if err != nil {
+		h.errLogger.Print(err)
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+	}
+
+	if result["status"] == "fail" {
+		switch result["message"] {
+		case auth.ErrIncorrectUsernameOrEmail.Error():
+			return c.JSON(http.StatusBadRequest, result["message"])
+		default:
+			return c.JSON(http.StatusInternalServerError, result["message"])
+		}
+	}
+
+	c.Response().Header().Set("Authorization", "Bearer "+result["token"])
+
+	h.infoLogger.Print("successfully logged in")
+	return c.JSON(http.StatusOK, echo.Map{"message": fmt.Sprintf("Welcome %s", user.Username)})
 }

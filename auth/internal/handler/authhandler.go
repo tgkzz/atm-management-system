@@ -38,5 +38,32 @@ func (h *Handler) register(c echo.Context) error {
 }
 
 func (h *Handler) login(c echo.Context) error {
-	return c.JSON(http.StatusOK, nil)
+	var creds models.User
+	if err := c.Bind(&creds); err != nil {
+		h.errorLogger.Print(err)
+		return ErrorHandler(c, err, http.StatusInternalServerError)
+	}
+
+	// TODO: handle errors
+	user, err := h.service.Auth.CheckUserCreds(creds)
+	if err != nil {
+		if err == models.ErrIncorrectUsernameOrEmail || strings.Contains(err.Error(), "sql: no rows in result set") {
+			return ErrorHandler(c, models.ErrIncorrectUsernameOrEmail, http.StatusBadRequest)
+		}
+		return ErrorHandler(c, err, http.StatusInternalServerError)
+	}
+
+	token, err := h.service.Auth.JwtAuthorization(user)
+	if err != nil {
+		h.errorLogger.Print(err)
+		return ErrorHandler(c, err, http.StatusInternalServerError)
+	}
+
+	response := map[string]interface{}{
+		"status":  "success",
+		"message": "Successfully logged in",
+		"token":   token,
+	}
+
+	return c.JSON(http.StatusOK, response)
 }

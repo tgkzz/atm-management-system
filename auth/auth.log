@@ -18,3 +18,9 @@ ERROR: 2024/01/21 20:37:20 authhandler.go:19: invalid password
 ERROR: 2024/01/21 20:37:43 authhandler.go:19: invalid password
 ERROR: 2024/01/21 20:37:56 authhandler.go:19: pq: повторяющееся значение ключа нарушает ограничение уникальности "users_username_key"
 INFO: 2024/01/21 20:38:06 authhandler.go:36: Successfully created new user
+INFO: 2024/01/21 21:03:10 server.go:19: server is listening on http://localhost:8181
+INFO: 2024/01/21 21:03:43 server.go:19: server is listening on http://localhost:8181
+INFO: 2024/01/21 21:35:25 server.go:19: server is listening on http://localhost:8181
+INFO: 2024/01/21 21:41:33 server.go:19: server is listening on http://localhost:8181
+INFO: 2024/01/21 21:44:34 server.go:19: server is listening on http://localhost:8181
+INFO: 2024/01/21 21:54:48 server.go:19: server is listening on http://localhost:8181
