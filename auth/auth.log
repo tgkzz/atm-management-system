@@ -3,3 +3,18 @@ ERROR: 2024/01/21 15:17:26 authhandler.go:19: pq: повторяющееся з�
 INFO: 2024/01/21 15:42:19 authhandler.go:32: Successfully created new user
 ERROR: 2024/01/21 15:42:48 authhandler.go:19: pq: повторяющееся значение ключа нарушает ограничение уникальности "users_username_key"
 INFO: 2024/01/21 15:43:05 authhandler.go:32: Successfully created new user
+INFO: 2024/01/21 19:34:56 server.go:19: server is listening on http://localhost:8181
+ERROR: 2024/01/21 19:35:02 authhandler.go:19: pq: повторяющееся значение ключа нарушает ограничение уникальности "users_username_key"
+INFO: 2024/01/21 19:44:10 server.go:19: server is listening on http://localhost:8181
+ERROR: 2024/01/21 19:44:14 authhandler.go:19: invalid email
+INFO: 2024/01/21 20:05:12 server.go:19: server is listening on http://localhost:8181
+ERROR: 2024/01/21 20:16:41 authhandler.go:19: invalid email
+ERROR: 2024/01/21 20:16:52 authhandler.go:19: invalid email
+ERROR: 2024/01/21 20:18:50 authhandler.go:19: invalid email
+INFO: 2024/01/21 20:36:55 server.go:19: server is listening on http://localhost:8181
+ERROR: 2024/01/21 20:37:00 authhandler.go:19: invalid email
+ERROR: 2024/01/21 20:37:10 authhandler.go:19: invalid email
+ERROR: 2024/01/21 20:37:20 authhandler.go:19: invalid password
+ERROR: 2024/01/21 20:37:43 authhandler.go:19: invalid password
+ERROR: 2024/01/21 20:37:56 authhandler.go:19: pq: повторяющееся значение ключа нарушает ограничение уникальности "users_username_key"
+INFO: 2024/01/21 20:38:06 authhandler.go:36: Successfully created new user

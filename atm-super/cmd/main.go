@@ -4,9 +4,14 @@ import (
 	"atm/config"
 	"atm/internal/handler"
 	"atm/internal/server"
+	"atm/internal/service"
 	"atm/logger"
 	"log"
 	"os"
+)
+
+var (
+	AuthURL string = "http://localhost:8181/auth"
 )
 
 func main() {
@@ -29,7 +34,9 @@ func main() {
 		errLog.Fatalf("LoadConfig %s", err)
 	}
 
-	h := handler.NewHandler(infoLog, errLog)
+	s := service.NewService(AuthURL)
+
+	h := handler.NewHandler(s, infoLog, errLog)
 
 	errLog.Fatal(server.RunServer(cfg, h.Routes(), infoLog))
 }

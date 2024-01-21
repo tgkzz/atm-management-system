@@ -1,6 +1,8 @@
 package auth
 
-import "auth/internal/models"
+import (
+	"auth/internal/models"
+)
 
 // CREATE
 func (a AuthRepo) CreateUser(user models.User) error {

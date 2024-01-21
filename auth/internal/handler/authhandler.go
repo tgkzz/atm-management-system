@@ -12,25 +12,29 @@ func (h *Handler) register(c echo.Context) error {
 
 	if err := c.Bind(&user); err != nil {
 		h.errorLogger.Print(err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return ErrorHandler(c, err, http.StatusInternalServerError)
 	}
 
 	if err := h.service.Auth.CreateNewUser(user); err != nil {
 		h.errorLogger.Print(err)
 		if err == models.ErrInvalidEmail || err == models.ErrInvalidPassword {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+			return ErrorHandler(c, err, http.StatusBadRequest)
 		}
 		if strings.Contains(err.Error(), "pq: повторяющееся значение ключа нарушает ограничение уникальности \"users_username_key\"") {
-			return echo.NewHTTPError(http.StatusBadRequest, models.ErrUsernameAlreadyTaken)
+			return ErrorHandler(c, models.ErrUsernameAlreadyTaken, http.StatusBadRequest)
 		}
 		if strings.Contains(err.Error(), "pq: повторяющееся значение ключа нарушает ограничение уникальности \"users_email_key\"") {
-			return echo.NewHTTPError(http.StatusBadRequest, models.ErrEmailAlreadyTaken)
+			return ErrorHandler(c, models.ErrEmailAlreadyTaken, http.StatusBadRequest)
 		}
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return ErrorHandler(c, err, http.StatusInternalServerError)
 	}
 
+	successResponse := map[string]interface{}{
+		"status":  "success",
+		"message": "Successfully created new user",
+	}
 	h.infoLogger.Print("Successfully created new user")
-	return c.JSON(http.StatusCreated, user)
+	return c.JSON(http.StatusCreated, successResponse)
 }
 
 func (h *Handler) login(c echo.Context) error {

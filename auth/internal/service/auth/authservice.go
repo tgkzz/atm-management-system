@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"auth/internal/models"
+	auth2 "auth/internal/models"
 	"auth/internal/repository/auth"
 )
 
@@ -10,10 +10,10 @@ type AuthService struct {
 }
 
 type IAuthService interface {
-	CreateNewUser(user models.User) error
-	GetUserByUsername(username string) (models.User, error)
+	CreateNewUser(user auth2.User) error
+	GetUserByUsername(username string) (auth2.User, error)
 	DeleteUserByUsername(username string) error
-	CheckUserCreds(creds models.User) (models.User, error)
+	CheckUserCreds(creds auth2.User) (auth2.User, error)
 	//Login(user models.User) (string, error)
 }
 

@@ -7,7 +7,6 @@ import (
 	"auth/internal/server"
 	"auth/internal/service"
 	"auth/logger"
-	"fmt"
 	"log"
 	"os"
 )
@@ -34,7 +33,6 @@ func main() {
 
 	db, err := repository.NewDB(cfg)
 	if err != nil {
-		fmt.Println(err)
 		errLog.Fatalf("NewDB %s", err)
 	}
 
